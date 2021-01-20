@@ -1,0 +1,19 @@
+﻿{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://www.w3.org/2018/credentials/examples/v1"
+  ],
+  "id": "https://example/credentials/3732",
+  "type": [
+    "VerifiableCredential",
+    "AntibodyTestCredential"
+  ],
+  "issuer": "https://example/issuer/14",
+  "issuerDate": "2020-10-26T13:00:00z",
+  "credentialSubject": {
+    "id": "did:example:ebfeb1f712ebc6f1c276e12ec21",
+    "Antibody": "SARSr-CoV-2"
+  },
+  "proof": {
+  }
+}

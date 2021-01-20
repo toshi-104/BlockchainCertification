@@ -1,0 +1,17 @@
+{
+  "name": "BlockchainCertification",
+  "references": [
+    "UniRx",
+    "UniTask",
+    "Zenject",
+    "MiniJson"
+  ],
+  "optionalUnityReferences": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": []
+}
