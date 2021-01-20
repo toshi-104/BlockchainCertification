@@ -1522,7 +1522,7 @@ GameObject:
   - component: {fileID: 786192308}
   - component: {fileID: 786192311}
   m_Layer: 5
-  m_Name: CreateSecondQrButton
+  m_Name: CreateQr3Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3117,10 +3117,10 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 720, y: 1280}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -3332,7 +3332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1c5bbb3b5804e9a86c01b63ba8e90bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeCanvas: {fileID: 435647086}
+  webCamCanvas: {fileID: 435647086}
 --- !u!114 &1976679651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3426,7 +3426,7 @@ GameObject:
   - component: {fileID: 1988032220}
   - component: {fileID: 1988032223}
   m_Layer: 5
-  m_Name: CreateFirstQrButton
+  m_Name: CreateQr1Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

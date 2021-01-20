@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Holder {
-    public class DisplayQr3Button : MonoBehaviour {
+    public class ShowQr3Button : MonoBehaviour {
         [SerializeField] private HolderManager manager = default;
 
         private void Start() {
