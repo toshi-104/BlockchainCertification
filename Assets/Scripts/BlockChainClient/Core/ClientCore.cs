@@ -21,7 +21,6 @@ namespace BlockChainClient.Core {
         }
 
         public static void Start() {
-            cm.Start();
             cm.ConnectToCoreNode();
         }
 

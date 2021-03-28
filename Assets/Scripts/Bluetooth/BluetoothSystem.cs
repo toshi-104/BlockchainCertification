@@ -6,37 +6,37 @@ namespace Bluetooth {
         public static string Device { private get; set; }
 #if UNITY_ANDROID
         private static readonly AndroidJavaObject AndroidBluetoothSystem =
-            new AndroidJavaObject("bluetooth.android.AndroidBluetoothSystem");
+            new AndroidJavaObject("bluetooth.AndroidBluetoothSystem");
 #endif
 
         public static IEnumerable<string> GetDevices() {
 #if UNITY_ANDROID
-            return AndroidBluetoothSystem.Call<string[]>("GetDevices");
+            return AndroidBluetoothSystem.Call<string[]>("getDevices");
 #endif
             return new string[0];
         }
 
         public static void Server() {
 #if UNITY_ANDROID
-            AndroidBluetoothSystem.Call("Server");
+            AndroidBluetoothSystem.Call("server");
 #endif
         }
 
         public static void Client() {
 #if UNITY_ANDROID
-            AndroidBluetoothSystem.Call("Client", Device);
+            AndroidBluetoothSystem.Call("client", Device);
 #endif
         }
 
         public static void Send(string message) {
 #if UNITY_ANDROID
-            AndroidBluetoothSystem.Call("Send", message);
+            AndroidBluetoothSystem.Call("send", message);
 #endif
         }
 
         public static void Receive(string gameObject, string method) {
 #if UNITY_ANDROID
-            AndroidBluetoothSystem.Call("Receive", gameObject, method);
+            AndroidBluetoothSystem.Call("receive", gameObject, method);
 #endif
         }
     }

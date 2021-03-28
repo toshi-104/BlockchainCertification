@@ -34,7 +34,7 @@ namespace QrCode {
             var height = texture.height;
             var result = reader.Decode(rawRGB, width, height);
 
-            return result != null ? result.Text : string.Empty;
+            return result?.Text;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Android;
@@ -15,13 +14,17 @@ namespace QrCode {
         public static WebCamDevice[] Devices { get; }
 
         static WebCam() {
-            SystemPermission().Forget();
-            currentWebCam.Value = new WebCamTexture();
+            SystemPermission();
             Devices = WebCamTexture.devices;
+            currentWebCam.Value = new WebCamTexture(Devices[0].name);
         }
 
         public static void StartWebCam() {
             currentWebCam.Value.Play();
+        }
+
+        public static void StopWebCam() {
+            currentWebCam.Value.Stop();
         }
 
         public static void ChangeWebCam(WebCamDevice device) {
@@ -40,10 +43,10 @@ namespace QrCode {
         /// <summary>
         /// カメラへのアクセス許可
         /// </summary>
-        private static async UniTaskVoid SystemPermission() {
+        private static void SystemPermission() {
 #if UNITY_ANDROID
             if (!Permission.HasUserAuthorizedPermission(Permission.Camera)) {
-                await UniTask.Run(() => Permission.RequestUserPermission(Permission.Camera));
+                Permission.RequestUserPermission(Permission.Camera);
             }
 #elif UNITY_IOS
             if (!Application.HasUserAuthorization(UserAuthorization.WebCam)) {

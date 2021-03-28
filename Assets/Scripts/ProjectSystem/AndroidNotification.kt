@@ -1,4 +1,4 @@
-﻿package ProjectSystem
+﻿package projectSystem
 
 import android.app.AlertDialog
 import android.app.ProgressDialog
@@ -9,15 +9,15 @@ class AndroidNotification {
     private val activity = UnityPlayer.currentActivity
     private val progressDialog = ProgressDialog(activity)
 
-    fun ShowShortToast(message: String) {
+    fun showShortToast(message: String) {
         Toast.makeText(activity.applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun ShowLongToast(message: String) {
+    fun showLongToast(message: String) {
         Toast.makeText(activity.applicationContext, message, Toast.LENGTH_LONG).show()
     }
 
-    fun ShowDialog(title: String, message: String, buttonText : String) {
+    fun showDialog(title: String, message: String, buttonText : String) {
         AlertDialog.Builder(activity)
             .setTitle(title)
             .setMessage(message)
@@ -27,12 +27,12 @@ class AndroidNotification {
 
     // 表示中はメインスレッドが止まり（？）Unityから非同期実行できないため消せない
     // またProgressDialog自体が非推奨
-    fun ShowProgressDialog(message: String){
+    fun showProgressDialog(message: String){
         progressDialog.setMessage(message)
         progressDialog.show()
     }
 
-    fun HideProgressDialog(){
+    fun hideProgressDialog(){
         if (progressDialog.isShowing){
             progressDialog.dismiss()
         }

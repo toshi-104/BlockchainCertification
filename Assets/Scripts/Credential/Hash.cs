@@ -3,6 +3,10 @@ using System.Text;
 
 namespace Credential {
     public static class Hash {
+        public static string GetCertificateId(string imei, string name, string time) {
+            return GetHash(imei + name + time);
+        }
+
         public static string GetHash(string message) {
             var encoded = Encoding.UTF8.GetBytes(message);
             var sha256 = new SHA256CryptoServiceProvider();

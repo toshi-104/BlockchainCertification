@@ -1,4 +1,4 @@
-﻿package ProjectSystem
+﻿package projectSystem
 
 import android.Manifest
 import android.content.Context.TELEPHONY_SERVICE
@@ -19,7 +19,7 @@ class AndroidPhoneId {
         }
     }
 
-    fun GetImei(): String? {
+    fun getImei(): String? {
         if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
             // TODO: 許可されなかったときの処理
             return null

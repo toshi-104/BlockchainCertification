@@ -1,4 +1,4 @@
-﻿package bluetooth.android
+﻿package bluetooth
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -35,7 +35,7 @@ class AndroidBluetoothSystem {
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    fun Server() {
+    fun server() {
         GlobalScope.launch {
             val serverSocket = adapter?.listenUsingInsecureRfcommWithServiceRecord("SPP", sppUuid)
             socket = serverSocket?.accept()
@@ -43,7 +43,7 @@ class AndroidBluetoothSystem {
         }
     }
 
-    fun Client(deviceName: String?) {
+    fun client(deviceName: String?) {
         val macAddress = deviceTable[deviceName]
         val device: BluetoothDevice? = adapter?.getRemoteDevice(macAddress)
 
@@ -57,7 +57,7 @@ class AndroidBluetoothSystem {
         }
     }
 
-    fun GetDevices(): Array<String> {
+    fun getDevices(): Array<String> {
         val devices = adapter?.bondedDevices ?: return emptyArray()
         if (devices.size >= 1) {
             for (i in devices) {
@@ -67,7 +67,7 @@ class AndroidBluetoothSystem {
         return deviceTable.keys.toTypedArray()
     }
 
-    fun Send(message: String) {
+    fun send(message: String) {
         try {
             outputStream = socket?.outputStream
         } catch (connectException: IOException) {
@@ -99,27 +99,32 @@ class AndroidBluetoothSystem {
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    fun Receive(gameObject: String, method: String) {
-        try {
-            inputStream = socket?.inputStream
-        } catch (connectException: IOException) {
-            CloseSocket()
-            socket = null
-            return
-        }
-
+    fun receive(gameObject: String, method: String) {
         GlobalScope.launch {
-            val incomingBuff = ByteArray(64)
+            while (socket == null){
+                delay(1000)
+            }
+            try {
+                inputStream = socket?.inputStream
+            } catch (connectException: IOException){
+                closeSocket()
+                socket = null
+                return@launch
+            }
 
-            val bytes = inputStream?.read(incomingBuff)
-            val buff = ByteArray(bytes!!)
-            System.arraycopy(incomingBuff, 0, buff, 0, bytes)
-            val message = String(buff, StandardCharsets.UTF_8)
-            UnityPlayer.UnitySendMessage(gameObject, method, message)
+            while (true) {
+                val incomingBuff = ByteArray(64)
+
+                val bytes = inputStream?.read(incomingBuff)
+                val buff = ByteArray(bytes!!)
+                System.arraycopy(incomingBuff, 0, buff, 0, bytes)
+                val message = String(buff, StandardCharsets.UTF_8)
+                UnityPlayer.UnitySendMessage(gameObject, method, message)
+            }
         }
     }
 
-    fun CloseSocket() {
+    fun closeSocket() {
         try {
             socket?.close()
         } catch (e: IOException) {

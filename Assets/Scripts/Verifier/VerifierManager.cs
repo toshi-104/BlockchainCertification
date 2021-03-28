@@ -1,66 +1,33 @@
-﻿using System;
-using BlockChainClient.Core;
-using BlockChainClient.P2P;
-using Bluetooth;
+﻿using System.Collections.Generic;
 using Credential;
-using Cysharp.Threading.Tasks;
-using ProjectSystem;
-using QrCode;
-using UniRx;
 using UnityEngine;
 
 namespace Verifier {
     public class VerifierManager : MonoBehaviour {
-        [SerializeField] private GameObject cameraCanvas = default;
-        private WebCamTexture texture;
-        private string id = "";
-        private string clientId;
-        private string holderName;
+        public string CertificateId { get; private set; }
+        public string ClientId { get; private set; }
+        public string HolderName { get; private set; }
+        public string IdPhoto { get; private set; }
+        public string Hash { get; private set; }
+        public string IssueDate { get; private set; }
+        public string Category { get; private set; }
+        public string Result { get; private set; }
 
-        private void Start() {
-            WebCam.WebCamChanged
-                .Subscribe(x => texture = x)
-                .AddTo(this);
-        }
-
-        public void ScanQr() {
-            cameraCanvas.SetActive(true);
-            WebCam.StartWebCam();
-            Observable.EveryFixedUpdate()
-                .TakeWhile(_ => id == "")
-                .Subscribe(_ => {
-                    id = QrCodeSystem.ReadQrCode(texture);
-                    if (id != "") {
-                        cameraCanvas.SetActive(false);
-                    }
-                })
-                .AddTo(this);
-        }
-
-        public void ReceiveData() {
-            BluetoothSystem.Server();
-            BluetoothSystem.Receive(gameObject.name, ((Action<string>) SetMessage).Method.Name);
-        }
-
-        public async UniTaskVoid Verify() {
-            ClientCore.Start();
-            ClientCore.SendMessageToMyCoreNode(MsgType.Enhanced, id);
-            var certification = await ClientCore.ReceiveCertification();
-            var timestamp = (DateTime) certification["issuerDate"];
-            var hash = Hash.GetHash(clientId + holderName + timestamp);
-
-            if (hash == id) {
-                NotificationSystem.ShowDialog("認証結果", certification["credentialSubject"].ToString(), "ok");
-            }
-            else {
-                NotificationSystem.ShowDialog("エラー", "IDが違います", "ok");
-            }
-        }
-
-        private void SetMessage(string message) {
+        public void SetMessage(string message) {
             var s = message.Split(',');
-            clientId = s[0];
-            holderName = s[1];
+            IdPhoto = s[0];
+            Hash = s[1];
+        }
+
+        public void OnQrScanned(string scanData) {
+            var split = scanData.Split(',');
+            CertificateId = split[0];
+            ClientId = split[1];
+            HolderName = split[2];
+        }
+
+        public void SetCertification(Dictionary<string, object> certification) {
+            (IssueDate, Category, Result) = Certificate.GetData(certification);
         }
     }
 }
